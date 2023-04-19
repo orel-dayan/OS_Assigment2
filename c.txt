@@ -1,0 +1,14 @@
+a.txt
+b.txt
+cmp.c
+codecA.c
+codecB.c
+codec.h
+copy.c
+c.txt
+decode.c
+docs
+encode.c
+Makefile
+Readme.md
+stshell.c
