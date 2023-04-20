@@ -37,7 +37,7 @@ copy tool will copy a source file to a destination file. The tool supports addit
 
   **Decode**  - gets codec name and text, prints decodedd text to the console
 
- ## Task C
+
 
 
 
@@ -50,6 +50,8 @@ copy tool will copy a source file to a destination file. The tool supports addit
 
    ```
 
+ ## Task C
+ לרשום שלקחנו השראה מ zsh
 
 ## Requirements
 - Ubuntu 22.04 LTS
