@@ -23,6 +23,13 @@ int main()
     fgets(input, sizeof(input), stdin);
 
     input[strcspn(input, "\n")] = 0; // remove the trailing newline
+// maybe remove 
+    if (strcmp(input, "clear") == 0)
+    {
+      write(STDOUT_FILENO, "\033[H\033[J", 7);
+
+      continue;
+    }
 
     if (strcmp(input, "exit") == 0)
     {
