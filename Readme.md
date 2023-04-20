@@ -8,10 +8,10 @@ University assignment 2 for Operating System  course
 The task is made of 3 parts: files operations, dynamic libraries, and basic shell.
 
 ### Task A
-* **Compare**
-cmp tool compares two files and returns 1 if they are equal or 0 if not. The tool supports additional flags (-v , -i). -v for verbose output. -i to ignore case size.
+- **Compare** -
+  cmp tool compares two files and returns 1 if they are equal or 0 if not. The tool supports additional flags (-v , -i). -v for verbose output. -i to ignore case .
 
-* **Copy**
+-  **Copy** -
 copy tool will copy a source file to a destination file. The tool supports additional flags (-v, -f). -v for verbose output. -f will force copy (will rewrite existing file if needed).
 
 
@@ -25,17 +25,20 @@ copy tool will copy a source file to a destination file. The tool supports addit
    ```
 ## Task B
 
-* **Libraries :**
+- **Libraries :**
 
    **CodecA**- makes swaps every big char to small and small to big.
 
    **CodecB** - adds 3 to ascii of every char.
 
-* **Tools :**
+- **Tools :**
 
    **Encode** - gets codec name and text, prints encoded text to the console
 
   **Decode**  - gets codec name and text, prints decodedd text to the console
+
+ ## Task C
+
 
 
 ## To run
@@ -52,5 +55,12 @@ copy tool will copy a source file to a destination file. The tool supports addit
 - Ubuntu 22.04 LTS
 - GNU C compiler
 - Make
+
+
+## Authors
+
+- Orel Dayan
+
+## Stshell Example :
 
 
