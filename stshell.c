@@ -5,10 +5,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include "stshell.h"
-
-#define MAX_LINE 80 // The maximum length command
-#define clear() printf("\033[H\033[J")
 
 int main()
 {
@@ -16,14 +14,14 @@ int main()
   init_shell(); // initialize the shell
 
   signal(SIGINT, handle_signal); // for Ctrl-C
-  while (1)
+  while (true)
   {
     char input[MAX_LINE + 1]; // +1 for the null terminator
     printf("\033[36mstshell>\033[0m ");
     fgets(input, sizeof(input), stdin);
 
     input[strcspn(input, "\n")] = 0; // remove the trailing newline
-// maybe remove 
+                                     // maybe remove
     if (strcmp(input, "clear") == 0)
     {
       write(STDOUT_FILENO, "\033[H\033[J", 7);
@@ -173,17 +171,18 @@ int main()
 }
 void init_shell()
 {
-  clear();
-  printf("\033[1m  _   _      _ _            \033[0m\n");
-  printf("\033[1m | | | | ___| | | ___       \33[0m\n");
-  printf("\033[1m | |_| |/ _ \\ | |/ _ \\   \033[0m\n");
-  printf("\033[1m |  _  |  __/ | | (_) |     \033[0m\n");
-  printf("\033[1m |_| |_|\\___|_|_|\\___/     \033[0m\n");
-  printf("\033[1m                              \033[0m\n");
+  // clear();
+  printf("\033[1;31m   _   _      _ _              \033[0m\n");  // Red
+  printf("\033[1;33m  | | | | ___| | | ___         \33[0m\n");   // Yellow
+  printf("\033[1;32m  | |_| |/ _ \\ | |/ _ \\     \033[0m\n");   // Green
+  printf("\033[1;36m  |  _  |  __/ | | (_) |       \033[0m\n");  // Cyan
+  printf("\033[1;34m  |_| |_|\\___|_|_|\\___/       \033[0m\n"); // Blue
 
-  sleep(1);
+ printf("\033[0m\n"); // Reset color to default
 
-  clear();
+  // sleep(1);
+
+  // clear();
 }
 
 void handle_signal(int sig)
