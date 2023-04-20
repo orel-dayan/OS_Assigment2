@@ -46,5 +46,5 @@ decode.o: decode.c
 stshell: stshell.o
 		$(CC) $(FLAGS) -o stshell stshell.o
 
-stshell.o: stshell.c
+stshell.o: stshell.c stshell.h
 	$(CC) $(FLAGS) -c stshell.c
