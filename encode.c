@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
     return -1;
   }
 
-  void *handle;
-  void (*func_encode)(char *);
+  void *handle; // declare a void pointer
+  void (*func_encode)(char *); // declare a function pointer
 
   if (strcmp(argv[1], "codecA") == 0) // load the library
   {
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     printf("Usage : ./encode <codec> <message>\n"); // print the usage
     return -1;
   }
-  if (!handle)  return -1;
+  if (!handle)  return -1; // check if the library is loaded successfully or not
 
   func_encode = dlsym(handle, "encode"); // get the function pointer
   func_encode(argv[2]); // encode the message

@@ -9,4 +9,7 @@ void redirectFile(int, char *);
 
 void execute(char *);
 
+void init_shell();
+
+
 #endif

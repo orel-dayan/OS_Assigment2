@@ -7,54 +7,56 @@
 #include <fcntl.h>
 #include "stshell.h"
 
-#define MAX_LINE 80
+#define MAX_LINE 80 // The maximum length command
+#define clear() printf("\033[H\033[J")
 
 int main()
 {
+
+  init_shell(); // initialize the shell
+
   signal(SIGINT, handle_signal); // for Ctrl-C
   while (1)
   {
     char input[MAX_LINE + 1]; // +1 for the null terminator
-
-    // Display the prompt and read the user's command
-    printf("stshell> :");
+    printf("\033[36mstshell>\033[0m ");
     fgets(input, sizeof(input), stdin);
 
-    // Remove the newline character from the end of the input
-    input[strcspn(input, "\n")] = 0;
+    input[strcspn(input, "\n")] = 0; // remove the trailing newline
 
-    // Exit if the user enters "exit"
     if (strcmp(input, "exit") == 0)
     {
       exit(0);
     }
 
-    // Check if the input contains a pipe
-    int pipe_count = 0;
+    /*  Check if the input contains a pipe  */
+    int counterPipe = 0;
     for (int i = 0; i < strlen(input); i++)
     {
       if (input[i] == '|')
-      {
-        pipe_count++;
-      }
+        counterPipe++;
     }
 
-    if (pipe_count > 0)
+    if (counterPipe > 0)
     {
-      // Split the input by pipes and store each command in an array
-      char *commands[pipe_count + 1];
+      /**
+       * split the input by pipes and store each command in an array
+       */
+      char *commands[counterPipe + 1];
       char *token = strtok(input, "|");
-      int i = 0;
+      int i = 0; // index of the commands array
       while (token != NULL)
       {
         commands[i++] = token;
         token = strtok(NULL, "|");
       }
       commands[i] = NULL;
-
-      // Create an array of pipes for each command
-      int pipes[pipe_count][2]; // 2 file descriptors per pipe 0: read end, 1: write end
-      for (int i = 0; i < pipe_count; i++)
+      /**
+       * create array of pipes
+       * there is 2 file descriptors per pipe 0: read end, 1: write end
+       */
+      int pipes[counterPipe][2];
+      for (int i = 0; i < counterPipe; i++)
       {
         if (pipe(pipes[i]) == -1) // create a pipe
         {
@@ -65,7 +67,7 @@ int main()
 
       // Fork a child process for each command in the pipeline
       int pid;
-      for (int i = 0; i < pipe_count + 1; i++)
+      for (int i = 0; i < counterPipe + 1; i++)
       {
         pid = fork();
 
@@ -92,7 +94,7 @@ int main()
           }
 
           // Redirect output to the next pipe, if this is not the last command
-          if (i < pipe_count)
+          if (i < counterPipe)
           {
             if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
             {
@@ -102,13 +104,13 @@ int main()
           }
 
           // Close all pipe ends except the ones being used by this command
-          for (int j = 0; j < pipe_count; j++)
+          for (int j = 0; j < counterPipe; j++)
           {
             if (i > 0 && j == i - 1)
             {
               close(pipes[j][1]);
             }
-            else if (i < pipe_count && j == i)
+            else if (i < counterPipe && j == i)
             {
               close(pipes[j][0]);
             }
@@ -123,7 +125,7 @@ int main()
       }
 
       // Close all pipe ends in the parent process
-      for (int i = 0; i < pipe_count; i++)
+      for (int i = 0; i < counterPipe; i++)
       {
         close(pipes[i][0]);
         close(pipes[i][1]);
@@ -131,7 +133,7 @@ int main()
 
       // Wait for all child processes to exit
       int status;
-      for (int i = 0; i < pipe_count + 1; i++)
+      for (int i = 0; i < counterPipe + 1; i++)
       {
         wait(&status);
       }
@@ -154,8 +156,6 @@ int main()
       }
       else
       {
-        // Parent process
-
         // Wait for the child process to exit
         int status;
         wait(&status);
@@ -163,6 +163,20 @@ int main()
     }
   }
   return 0;
+}
+void init_shell()
+{
+  clear();
+  printf("\033[1m  _   _      _ _            \033[0m\n");
+  printf("\033[1m | | | | ___| | | ___       \33[0m\n");
+  printf("\033[1m | |_| |/ _ \\ | |/ _ \\   \033[0m\n");
+  printf("\033[1m |  _  |  __/ | | (_) |     \033[0m\n");
+  printf("\033[1m |_| |_|\\___|_|_|\\___/     \033[0m\n");
+  printf("\033[1m                              \033[0m\n");
+
+  sleep(1);
+
+  clear();
 }
 
 void handle_signal(int sig)

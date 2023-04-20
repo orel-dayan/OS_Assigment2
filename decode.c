@@ -5,22 +5,22 @@
 
 int main(int argc, char *argv[])
 {
-  if (argc != 3)
+  if (argc != 3) // check the number of arguments
   {
     printf("Usage : ./decode <codec> <message>\n");
     return -1;
   }
 
-  void *handle;
+  void *handle;                // declare a void pointer
   void (*func_encode)(char *); // declare a function pointer
 
   if (strcmp(argv[1], "codecA") == 0) // load the library
   {
-    handle = dlopen("./libcodecA.so", RTLD_LAZY);
+    handle = dlopen("./libcodecA.so", RTLD_LAZY); // open the library
   }
   else if (strcmp(argv[1], "codecB") == 0) // load the library
   {
-    handle = dlopen("./libcodecB.so", RTLD_LAZY);
+    handle = dlopen("./libcodecB.so", RTLD_LAZY); // open the library
   }
   else
   {
