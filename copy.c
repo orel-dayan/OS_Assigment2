@@ -5,16 +5,17 @@
 
 int main(int argc, char *argv[])
 {
-  if (argc < 3 || argc > 5)
-  {
-    printf("usage:  copy <file1> <file2> -v\n");
-    return 1;
-  }
-
   bool verbose = false;
   bool force = false;
   bool error = false;
   int c;
+
+  if (argc < 3 || argc > 5)
+  {
+    printf("usage: ./copy <source> <destination> [-v] [-f]\n");
+    return 1;
+  }
+
   if (argc == 4)
   {
     if (strcmp(argv[3], "-v") == 0)
@@ -27,10 +28,11 @@ int main(int argc, char *argv[])
     }
     else
     {
-      printf("usage:  copy <file1> <file2> -v\n");
+      printf("usage: ./copy <source> <destination> [-v] [-f]\n");
       return 1;
     }
   }
+
   if (argc == 5)
   {
     if ((strcmp(argv[3], "-v") == 0 && strcmp(argv[4], "-f") == 0) || (strcmp(argv[3], "-f") == 0 && strcmp(argv[4], "-v") == 0))
@@ -41,16 +43,20 @@ int main(int argc, char *argv[])
 
     else
     {
-      printf("usage:  copy <file1> <file2> -v\n");
+      printf("usage: ./copy <source> <destination> [-v] [-f]\n");
       return 1;
     }
   }
+  /**
+   * @brief  open source file and check if it exist
+   *
+   */
   FILE *src = fopen(argv[1], "r");
   if (src == NULL)
   {
     if (verbose)
     {
-      printf("general failure\n");
+      printf("general failure\n"); // general failure
     }
 
     fclose(src);
@@ -62,7 +68,7 @@ int main(int argc, char *argv[])
   {
     if (!force)
     {
-      if (verbose)
+      if (verbose)   // target file exist
       {
         printf("target file exist\n");
       }
@@ -78,7 +84,7 @@ int main(int argc, char *argv[])
 
   if (dst == NULL)
   {
-    if (verbose)
+    if (verbose)  // target file exist
     {
       printf("general failure\n");
     }
@@ -99,6 +105,9 @@ int main(int argc, char *argv[])
 
   fclose(src);
   fclose(dst);
+  /**
+   * @brief print success or general failure if there is no error and verbose is true or there is an error and verbose is true respectively
+   */
 
   if (error && verbose)
   {
@@ -109,5 +118,5 @@ int main(int argc, char *argv[])
     printf("success\n");
   }
 
-  return error;
+  return error; // return 1 if there is an error and 0 if there is no error 
 }

@@ -11,7 +11,7 @@ cmp: cmp.o
 
 cmp.o: cmp.c
 	$(CC) $(FLAGS) -c cmp.c
-# TODO: DASdas
+
 
 copy: copy.o
 	$(CC) $(FLAGS) -o copy copy.o
@@ -48,5 +48,3 @@ stshell: stshell.o
 
 stshell.o: stshell.c
 	$(CC) $(FLAGS) -c stshell.c
-
-
