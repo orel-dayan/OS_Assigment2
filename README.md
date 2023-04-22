@@ -49,6 +49,13 @@ copy tool will copy a source file to a destination file. The tool supports addit
    ```
 
  ## Task C
+ 
+ To run:
+
+```sh
+   make stshell
+   ./stshell
+   ```
 
 
 ## Requirements
@@ -61,7 +68,18 @@ copy tool will copy a source file to a destination file. The tool supports addit
 
 - Orel Dayan
 
-## Stshell Example :
+## Run Example :
+After make all , we ran ./stshell.
+#### Some comments:
+- The files file1.txt and file2.txt are identical, file3.txt is identical except for changes in capital letters.
+
+![Screenshot from 2023-04-22 22-55-10](https://user-images.githubusercontent.com/117816462/233805358-19f8144c-8b2d-44c4-804a-6514303d5a51.png)
 
 
+## Bibliography
+- https://stackoverflow.com/questions/30226530/same-file-descriptor-after-fork
+- https://www.qnx.com/developers/docs/6.4.0/neutrino/lib_ref/f/fork.html
+- https://www.geeksforgeeks.org/making-linux-shell-c/
+- https://www.geeksforgeeks.org/fork-system-call/
+- https://dev.to/ifenna__/adding-colors-to-bash-scripts-48g4
 
