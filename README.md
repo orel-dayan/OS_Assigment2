@@ -62,6 +62,6 @@ copy tool will copy a source file to a destination file. The tool supports addit
 - Orel Dayan
 
 ## Stshell Example :
-image.png
+
 
 
