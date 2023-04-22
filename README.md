@@ -39,8 +39,6 @@ copy tool will copy a source file to a destination file. The tool supports addit
 
 
 
-
-
 ## To run
 
 ```sh
@@ -51,7 +49,7 @@ copy tool will copy a source file to a destination file. The tool supports addit
    ```
 
  ## Task C
- לרשום שלקחנו השראה מ zsh
+
 
 ## Requirements
 - Ubuntu 22.04 LTS

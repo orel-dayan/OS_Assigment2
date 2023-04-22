@@ -16,20 +16,20 @@ int main()
   signal(SIGINT, handle_signal); // for Ctrl-C
   while (true)
   {
-    char input[MAX_LINE + 1]; // +1 for the null terminator
+    char input[MAX_LINE + 1]; /* command line (of 80) has max of 80 chars + \0 */
     printf("\033[36mstshell>\033[0m ");
-    fgets(input, sizeof(input), stdin);
+    fgets(input, sizeof(input), stdin); // read a line from stdin (user input)
 
-    input[strcspn(input, "\n")] = 0; // remove the trailing newline
-                                     // maybe remove
-    if (strcmp(input, "clear") == 0)
+    input[strcspn(input, "\n")] = 0; // remove the trailing newline character from the input
+
+    if (strcmp(input, "clear") == 0) // clear the screen
     {
       write(STDOUT_FILENO, "\033[H\033[J", 7);
 
-      continue;
+      continue; // skip the rest of the loop
     }
 
-    if (strcmp(input, "exit") == 0)
+    if (strcmp(input, "exit") == 0) // exit the shell
     {
       exit(0);
     }
@@ -42,12 +42,13 @@ int main()
         counterPipe++;
     }
 
+    // check if counterPipe is greater than 0 then execute the pipe
     if (counterPipe > 0)
     {
       /**
        * split the input by pipes and store each command in an array
        */
-      char *commands[counterPipe + 1];
+      char *commands[counterPipe + 1]; // +1 for the NULL terminator
       char *token = strtok(input, "|");
       int i = 0; // index of the commands array
       while (token != NULL)
@@ -55,7 +56,7 @@ int main()
         commands[i++] = token;
         token = strtok(NULL, "|");
       }
-      commands[i] = NULL;
+      commands[i] = NULL; // NULL terminator
       /**
        * create array of pipes
        * there is 2 file descriptors per pipe 0: read end, 1: write end
@@ -65,7 +66,7 @@ int main()
       {
         if (pipe(pipes[i]) == -1) // create a pipe
         {
-          perror("pipe");
+          printf("Error : creating pipe \n");
           exit(1);
         }
       }
@@ -78,22 +79,20 @@ int main()
 
         if (pid == -1)
         {
-          perror("fork");
+          printf("Error : forking child process \n");
           exit(1);
         }
         else if (pid == 0)
         {
           // Child process
-
-          // Set up signal handling for Ctrl+c
-          signal(SIGINT, handle_signal);
+          signal(SIGINT, handle_signal); // for Ctrl-C
 
           // Redirect input from the previous pipe, if this is not the first command
           if (i > 0)
           {
             if (dup2(pipes[i - 1][0], STDIN_FILENO) == -1) // duplciate the read end of the previous pipe to the standard input
             {
-              perror("dup2");
+              printf("Error : dup2 \n");
               exit(1);
             }
           }
@@ -103,7 +102,7 @@ int main()
           {
             if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
             {
-              perror("dup2");
+              printf("Error : dup2 \n");
               exit(1);
             }
           }
@@ -150,13 +149,13 @@ int main()
 
       if (pid == -1)
       {
-        perror("fork");
+        printf("Error : forking child process \n");
         exit(1);
       }
       else if (pid == 0)
       {
 
-        // Execute the command
+        signal(SIGINT, handle_signal); // for Ctrl-C
         execute(input);
       }
       else
@@ -169,59 +168,60 @@ int main()
   }
   return 0;
 }
+
 void init_shell()
 {
-  // clear();
+  clear();
   printf("\033[1;31m   _   _      _ _              \033[0m\n");  // Red
   printf("\033[1;33m  | | | | ___| | | ___         \33[0m\n");   // Yellow
   printf("\033[1;32m  | |_| |/ _ \\ | |/ _ \\     \033[0m\n");   // Green
   printf("\033[1;36m  |  _  |  __/ | | (_) |       \033[0m\n");  // Cyan
   printf("\033[1;34m  |_| |_|\\___|_|_|\\___/       \033[0m\n"); // Blue
 
- printf("\033[0m\n"); // Reset color to default
+  printf("\033[0m\n"); // Reset color to default
 
   // sleep(1);
 
   // clear();
 }
 
-void handle_signal(int sig)
+void handle_signal(int signal)
 {
   // Do nothing
   printf("\n");
 }
 
-void redirectFile(int output_redirect, char *output_file)
+void redirectFile(int output, char *file)
 {
   // Redirect output to a file if necessary
-  if (output_redirect == 1)
+  if (output == 1)
   {
     // Output redirection with ">"
-    int fd = open(output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    int fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd == -1)
     {
-      perror("open");
+      printf("Error : open \n");
       exit(1);
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
     {
-      perror("dup2");
+      printf("Error : dup2 \n");
       exit(1);
     }
     close(fd);
   }
-  else if (output_redirect == 2)
+  else if (output == 2)
   {
     // Output redirection with ">>"
-    int fd = open(output_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    int fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd == -1)
     {
-      perror("open");
+      printf("Error : open \n");
       exit(1);
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
     {
-      perror("dup2");
+      printf("Error : dup2 \n");
       exit(1);
     }
     close(fd);
@@ -230,6 +230,10 @@ void redirectFile(int output_redirect, char *output_file)
 
 void execute(char *input)
 {
+  /*
+  The arguments to the command 256 is the maximum number of arguments that can be
+   passed to a command cause of the limit of the array size in C (256).
+  */
   char *args[256];
   char *arg = strtok(input, " ");
   int i = 0;
@@ -241,35 +245,35 @@ void execute(char *input)
   args[i] = NULL;
 
   // Check if this command contains an output redirection symbol
-  int output_redirect = 0;
-  char *output_file = NULL;
+  int output = 0;
+  char *file_output = NULL; // The file to redirect output to
   for (int j = 0; args[j] != NULL; j++)
   {
-    if (strcmp(args[j], ">") == 0)
+    if (strcmp(args[j], ">") == 0) // Output redirection with ">"
     {
-      output_redirect = 1;
-      output_file = args[j + 1];
-      args[j] = NULL;
-      break;
+      output = 1;                // 1 means ">"
+      file_output = args[j + 1]; // The file to redirect output to
+      args[j] = NULL;            // Set the output redirection symbol to NULL so that it is not passed to execvp
+      break;                     // Break out of the loop
     }
     else if (strcmp(args[j], ">>") == 0)
     {
-      output_redirect = 2;
-      output_file = args[j + 1];
-      args[j] = NULL;
-      break;
+      output = 2;                // 2 means ">>"
+      file_output = args[j + 1]; // The file to redirect output to
+      args[j] = NULL;            // Set the output redirection symbol to NULL so that it is not passed to execvp
+      break;                     // Break out of the loop
     }
     else if (strcmp(args[j], "<") == 0)
     {
-      int fd = open(args[j + 1], O_RDONLY);
-      if (fd == -1)
+      int fd = open(args[j + 1], O_RDONLY); // Open the file to redirect input from
+      if (fd == -1)                         // If the file does not exist
       {
-        perror("open");
+        printf("Error : open \n");
         exit(1);
       }
-      if (dup2(fd, STDIN_FILENO) == -1)
+      if (dup2(fd, STDIN_FILENO) == -1) // Redirect input from the file
       {
-        perror("dup2");
+        printf("Error : dup2 \n");
         exit(1);
       }
       close(fd);
@@ -277,12 +281,11 @@ void execute(char *input)
       break;
     }
   }
-  redirectFile(output_redirect, output_file);
+  redirectFile(output, file_output);
 
-  // Execute the command
-  if (execvp(args[0], args) == -1)
+  if (execvp(args[0], args) == -1) // execute the command
   {
-    perror("execvp");
+    printf("Error : execvp \n");
     exit(1);
   }
 }

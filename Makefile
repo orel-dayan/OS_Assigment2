@@ -6,6 +6,12 @@ all: cmp copy encode decode stshell
 clean:
 	rm -f *.o *.so  *.a cmp copy encode decode stshell
 
+stshell: stshell.o
+		$(CC) $(FLAGS) -o stshell stshell.o
+
+stshell.o: stshell.c stshell.h
+	$(CC) $(FLAGS) -c stshell.c
+
 cmp: cmp.o
 	$(CC) $(FLAGS) -o cmp cmp.o
 
@@ -43,8 +49,3 @@ decode: decode.o libcodecA.so libcodecB.so
 decode.o: decode.c
 	$(CC) $(FLAGS) -c decode.c -ldl
 
-stshell: stshell.o
-		$(CC) $(FLAGS) -o stshell stshell.o
-
-stshell.o: stshell.c stshell.h
-	$(CC) $(FLAGS) -c stshell.c
