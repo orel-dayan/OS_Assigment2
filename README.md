@@ -70,6 +70,7 @@ In this task we will implement a simple shell. The shell will support the follow
 ## Authors
 
 - Orel Dayan
+- Evyatar Yosef
 
 ## Run Example :
 all the files and the pictures in the folder "examples" in the repository.

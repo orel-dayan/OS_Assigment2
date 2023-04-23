@@ -20,7 +20,7 @@ void handle_signal(int);
  *
  */
 
-void redirectFile(int, char *);
+void redirect(int, char *);
 
 /**
  * @brief execute executes a command with arguments and possibly an output redirection symbol

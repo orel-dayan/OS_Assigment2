@@ -17,7 +17,7 @@ int main()
   signal(SIGINT, handle_signal); // for Ctrl-C
   while (true)
   {
-    char input[MAX_LINE + 1]; /* command line (of 80) has max of 80 chars + \0 */
+    char input[MAX_LINE + 1]; // command line (of 80) has max of 80 chars + \0
     printf("\033[36mstshell>\033[0m ");
     fgets(input, sizeof(input), stdin); // read a line from stdin (user input)
 
@@ -192,7 +192,7 @@ void handle_signal(int signal)
   printf("\n");
 }
 
-void redirectFile(int output, char *file)
+void redirect(int output, char *file)
 {
   // Redirect output to a file if necessary
   if (output == 1)
@@ -282,7 +282,7 @@ void execute_command(char *input)
       break;
     }
   }
-  redirectFile(output, file_output);
+  redirect(output, file_output);
 
   if (execvp(args[0], args) == -1) // execute the command
   {
