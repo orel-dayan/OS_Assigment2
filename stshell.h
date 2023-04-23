@@ -12,21 +12,12 @@
 
 void handle_signal(int);
 
-/**
- * @brief redirects the output of a command to a file
- * @param int output_redirect - The output redirection symbol
- * @param char *output_file - The file to redirect the output to
- * @return void
- *
- */
 
-void redirect(int, char *);
-
-/**
- * @brief execute executes a command with arguments and possibly an output redirection symbol
- * @param char *input - The command with arguments and possibly an output redirection symbol
+/***
+ * @brief execute_command executes a command passed as a parameter (input)
+ *      It also handles the output redirection
+ * @param char *input - The command to execute
  * @return void
- *
  */
 
 void execute_command(char *);

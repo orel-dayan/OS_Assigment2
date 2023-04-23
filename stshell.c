@@ -192,43 +192,6 @@ void handle_signal(int signal)
   printf("\n");
 }
 
-void redirect(int output, char *file)
-{
-  // Redirect output to a file if necessary
-  if (output == 1)
-  {
-    // Output redirection with ">"
-    int fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd == -1)
-    {
-      printf("Error : open \n");
-      exit(1);
-    }
-    if (dup2(fd, STDOUT_FILENO) == -1)
-    {
-      printf("Error : dup2 \n");
-      exit(1);
-    }
-    close(fd);
-  }
-  else if (output == 2)
-  {
-    // Output redirection with ">>"
-    int fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-    if (fd == -1)
-    {
-      printf("Error : open \n");
-      exit(1);
-    }
-    if (dup2(fd, STDOUT_FILENO) == -1)
-    {
-      printf("Error : dup2 \n");
-      exit(1);
-    }
-    close(fd);
-  }
-}
-
 void execute_command(char *input)
 {
   /*
@@ -282,7 +245,39 @@ void execute_command(char *input)
       break;
     }
   }
-  redirect(output, file_output);
+  // Redirect output to a file if necessary
+  if (output == 1)
+  {
+    // Output redirection with ">"
+    int fd = open(file_output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd == -1)
+    {
+      printf("Error : open \n");
+      exit(1);
+    }
+    if (dup2(fd, STDOUT_FILENO) == -1)
+    {
+      printf("Error : dup2 \n");
+      exit(1);
+    }
+    close(fd);
+  }
+  else if (output == 2)
+  {
+    // Output redirection with ">>"
+    int fd = open(file_output, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    if (fd == -1)
+    {
+      printf("Error : open \n");
+      exit(1);
+    }
+    if (dup2(fd, STDOUT_FILENO) == -1)
+    {
+      printf("Error : dup2 \n");
+      exit(1);
+    }
+    close(fd);
+  }
 
   if (execvp(args[0], args) == -1) // execute the command
   {

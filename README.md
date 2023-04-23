@@ -47,9 +47,9 @@ we implemented 2 codecs: codecA and codecB. codecA and codecB are shared librari
 In this task we will implement a simple shell. The shell will support the following features:
 1. Be able to run CMD tools that exist on system (e.g. ls, cat, etc.).
 2. Be able to stop running tool by pressing `Ctrl+C`, but not killing the shell itself.
-3.Be able to redirect output with “>” and “>>”, and allow piping with “|”, at least for 2 following commands. Redirection with pieping is allowed.
+3.Be able to redirect output with “>” and “>>”, and allow piping with “|” ( support more than 2 pipes)
 4. Be able to stop itself by `exit` command.
-5. we  also support `clear` that clear the screen.
+5. we  also support `clear` that clear the screen .
 
 
 
