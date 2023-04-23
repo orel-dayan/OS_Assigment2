@@ -10,6 +10,7 @@
 
 int main()
 {
+  int counterPipe = 0; // counter for the number of pipes
 
   init_shell(); // initialize the shell
 
@@ -35,7 +36,7 @@ int main()
     }
 
     /*  Check if the input contains a pipe  */
-    int counterPipe = 0;
+
     for (int i = 0; i < strlen(input); i++)
     {
       if (input[i] == '|')
@@ -112,19 +113,19 @@ int main()
           {
             if (i > 0 && j == i - 1)
             {
-              close(pipes[j][1]);
+              close(pipes[j][1]); // close the write end
             }
             else if (i < counterPipe && j == i)
             {
-              close(pipes[j][0]);
+              close(pipes[j][0]); // close the read end
             }
             else
             {
-              close(pipes[j][0]);
-              close(pipes[j][1]);
+              close(pipes[j][0]); // close the read end
+              close(pipes[j][1]); // close the write end
             }
           }
-          execute(commands[i]);
+          execute_command(commands[i]);
         }
       }
 
@@ -156,7 +157,7 @@ int main()
       {
 
         signal(SIGINT, handle_signal); // for Ctrl-C
-        execute(input);
+        execute_command(input);
       }
       else
       {
@@ -228,7 +229,7 @@ void redirectFile(int output, char *file)
   }
 }
 
-void execute(char *input)
+void execute_command(char *input)
 {
   /*
   The arguments to the command 256 is the maximum number of arguments that can be

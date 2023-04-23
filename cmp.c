@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
   fclose(file1); // close the file
   fclose(file2); // close the file
 
-  return isEqual;
+  return isEqual == 0 ? 0 : 1;
 }
 
 int compare_files(FILE *file1, FILE *file2)
