@@ -76,7 +76,9 @@ In this task we will implement a simple shell. The shell will support the follow
 all the files and the pictures in the folder "examples" in the repository.
 
 we ran stshell, and we ran some commands, you can see the picture below.
-we also ran the cmp and copy tools in the same shell.
+we also ran the cmp copy decode encode in the same shell.
+
+
 some comments:
 - The files file1.txt and file2.txt are identical, file3.txt is identical except for changes in capital letters.
 - we copied by force the content of file1.txt to copy.txt that already exists, and we can see that the content of copy.txt was overwritten.
