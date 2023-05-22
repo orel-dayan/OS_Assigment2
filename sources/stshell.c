@@ -20,7 +20,7 @@ int main()
     char input[MAX_LINE + 1]; // command line (of 80) has max of 80 chars + \0
 
 
-		printf("\033[1;36m"); // Set the text color to green and bold
+		printf("\033[1;36m"); // Set the text color to cyan (36)
 		printf("stshell> ");
 		printf("\033[0m"); // Reset the text color to the default
 
@@ -195,7 +195,7 @@ void init_shell()
 void handle_signal(int signal)
 {
   // Do nothing
- 
+
 }
 
 void execute_command(char *input)
