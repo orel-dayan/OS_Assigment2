@@ -18,7 +18,12 @@ int main()
   while (true)
   {
     char input[MAX_LINE + 1]; // command line (of 80) has max of 80 chars + \0
-    printf("\033[36mstshell>\033[0m ");
+
+
+		printf("\033[1;36m"); // Set the text color to green and bold
+		printf("stshell> ");
+		printf("\033[0m"); // Reset the text color to the default
+
     fgets(input, sizeof(input), stdin); // read a line from stdin (user input)
 
     input[strcspn(input, "\n")] = 0; // remove the trailing newline character from the input
@@ -60,7 +65,8 @@ int main()
       commands[i] = NULL; // NULL terminator
       /**
        * create array of pipes
-       * there is 2 file descriptors per pipe 0: read end, 1: write end
+       * there is 2 file descriptors for each pipe 0 for input and 1 for output
+       * so we need to create  2 for each pipe according to the number of pipes
        */
       int pipes[counterPipe][2];
       for (int i = 0; i < counterPipe; i++)
@@ -189,7 +195,7 @@ void init_shell()
 void handle_signal(int signal)
 {
   // Do nothing
-  printf("\n");
+ 
 }
 
 void execute_command(char *input)

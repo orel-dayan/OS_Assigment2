@@ -3,6 +3,7 @@
 #include <string.h>
 #include "codec.h"
 
+
 int main(int argc, char *argv[])
 {
   if (argc != 3) // check the number of arguments
