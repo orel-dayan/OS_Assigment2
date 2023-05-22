@@ -3,12 +3,12 @@
 University assignment 2 for Operating System  course
 ### For Computer Science B.S.c Ariel University
 
-## Description
+## **Description**
 The task is made of 3 parts: files operations, dynamic libraries, and basic shell (see below for details).
 All the code is written in C language. The code is compiled using the GNU C compiler, and the make utility.
 
 
-### Task A
+## Task A
 In this task we will implement 2 tools: cmp and copy.
 
 - **Compare** -
@@ -24,7 +24,7 @@ In this task we will implement 2 tools: cmp and copy.
 In this task we will implement a simple encoder and decoder. The encoder will get a message and a codec, and will encode the message using the codec. The decoder will get a message and a codec, and will decode the message using the codec.
 we implemented 2 codecs: codecA and codecB. codecA and codecB are shared libraries (libcodecA.so and libcodecB.so). codecA  convert all lower case chars to upper case, and all upper case to lower case. All other chars will remain unchanged. codecB convert all chars to the 3-rd next char (adding a number of 3 to the ASCII value). The codecs are reversiable functions, meaning they have encoders and decoders.
 
- ## Task C
+## Task C
 
 In this task we will implement a simple shell. The shell will support the following features:
 1. Be able to run CMD tools that exist on system (e.g. ls, cat, etc.).
@@ -64,7 +64,7 @@ In this task we will implement a simple shell. The shell will support the follow
 - Evyatar Yosef
 
 
-## Examples
+## **Examples**
 All the examples are in the folder docs.
 We ran the following commands in the our shell (stshell), and we can see the results in the screenshots below:
 
@@ -85,7 +85,7 @@ We ran the following commands in the our shell (stshell), and we can see the res
 
 
 
-## Bibliography
+## **References**
 - https://stackoverflow.com/questions/30226530/same-file-descriptor-after-fork
 - https://www.qnx.com/developers/docs/6.4.0/neutrino/lib_ref/f/fork.html
 - https://www.geeksforgeeks.org/making-linux-shell-c/
